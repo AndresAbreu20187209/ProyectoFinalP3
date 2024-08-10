@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Cargar los productos desde un archivo JSON.
     fetch('productos.json')
         .then(response => response.json())
         .then(productos => {
@@ -22,6 +23,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 const descripcionElement = document.createElement('p');
                 descripcionElement.textContent = producto.descripcion;
 
+                // Crear el elemento de precio.
+                const precioElement = document.createElement('p');
+                precioElement.textContent = producto.precio.toFixed(2);  // Mostrar el precio con dos decimales
+                precioElement.classList.add('precio');  // Aplicar la clase para estilo
+
+  
+
                 // Crear el campo de cantidad.
                 const cantidadElement = document.createElement('input');
                 cantidadElement.type = 'number';
@@ -34,10 +42,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 botonElement.textContent = 'Agregar al carrito';
                 botonElement.classList.add('btn-agregar');
                 
-                // Puedes agregar un evento al botón para manejar la lógica de agregar al carrito.
+                // Añadir evento al botón para manejar la lógica de agregar al carrito.
                 botonElement.addEventListener('click', () => {
-                    const cantidad = cantidadElement.value;
-                    alert(`Agregaste ${cantidad} ${producto.nombre}(s) al carrito.`);
+                    const cantidad = parseInt(cantidadElement.value);
+                    agregarAlCarrito(producto, cantidad);
                 });
 
                 // Añadir la imagen, nombre, descripción, campo de cantidad y botón al div del producto.
@@ -53,3 +61,24 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .catch(error => console.error('Error al cargar el catálogo:', error));
 });
+
+// Función para agregar productos al carrito.
+function agregarAlCarrito(producto, cantidad) {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    const productoExistente = carrito.find(p => p.nombre === producto.nombre);
+    if (productoExistente) {
+        productoExistente.cantidad += cantidad;
+    } else {
+        carrito.push({
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: cantidad,
+            imagen: `img/${producto.imagen}`
+        });
+    }
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    alert(`Agregaste ${cantidad} ${producto.nombre}(s) al carrito.`);
+}
+
