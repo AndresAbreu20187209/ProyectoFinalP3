@@ -1,0 +1,3 @@
+Paracetamol|Medicamento para el dolor y la fiebre|paracetamol.jpg
+Ibuprofeno|Medicamento antiinflamatorio y analgésico|ibuprofeno.jpg
+Aspirina|Medicamento para el dolor y la inflamación|aspirina.jpg
