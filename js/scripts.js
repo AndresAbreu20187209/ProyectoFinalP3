@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 productoDiv.appendChild(nombreElement);
                 productoDiv.appendChild(descripcionElement);
                 productoDiv.appendChild(cantidadElement);
+                productoDiv.appendChild(precioElement);
                 productoDiv.appendChild(botonElement);
 
                 // Añadir el div del producto al contenedor en el HTML.

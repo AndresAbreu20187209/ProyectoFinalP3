@@ -114,16 +114,29 @@ footer {
 }
 
 ----------
-.producto-carrito {
+
+#carrito {
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los productos */
+}
+
+.producto-carrito {
+    border: 1px solid #ddd;
+    
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(20% - 10px); /* Ajusta para 5 productos por fila */
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .producto-carrito img {
-    width: 80px;
-    margin-right: 20px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
 #total-carrito {
