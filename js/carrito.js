@@ -1,40 +1,84 @@
 // carrito.js
 
-document.addEventListener('DOMContentLoaded', cargarCarrito);
+document.addEventListener("DOMContentLoaded", function() {
+    const carritoDiv = document.getElementById('carrito');
+    const agregarRecetaBtn = document.getElementById('agregar-receta');
+    const recetaInput = document.getElementById('receta-input');
+    const recetaContainer = document.getElementById('receta-container');
+    const finalizarCompraBtn = document.getElementById('finalizar-compra');
 
-// Función para cargar los productos en el carrito desde el almacenamiento local
-function cargarCarrito() {
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    let listaCarrito = document.getElementById('lista-carrito');
-    let totalCarrito = 0;
 
-    // Limpiar la lista antes de agregar los productos
-    listaCarrito.innerHTML = '';
+    if (carrito.length === 0) {
+        carritoDiv.innerHTML = '<p>Tu carrito está vacío.</p>';
+        finalizarCompraBtn.style.display = 'none'; // Ocultar el botón si el carrito está vacío
+        return;
+    }
 
-    carrito.forEach(producto => {
-        let divProducto = document.createElement('div');
-        divProducto.classList.add('producto-carrito');
+    carrito.forEach(item => {
+        const productoDiv = document.createElement('div');
+        productoDiv.classList.add('producto');
 
-        divProducto.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}">
-            <h4>${producto.nombre}</h4>
-            <p>Cantidad: ${producto.cantidad}</p>
-            <p>Precio: $${producto.precio}</p>
-            <p>Subtotal: $${producto.precio * producto.cantidad}</p>
-        `;
+        const imgElement = document.createElement('img');
+        imgElement.src = item.imagen;
+        imgElement.alt = item.nombre;
 
-        listaCarrito.appendChild(divProducto);
+        const nombreElement = document.createElement('h3');
+        nombreElement.textContent = item.nombre;
 
-        totalCarrito += producto.precio * producto.cantidad;
+        const precioElement = document.createElement('p');
+        precioElement.textContent = `$${item.precio.toFixed(2)}`;
+        precioElement.classList.add('precio');
+
+        const cantidadElement = document.createElement('p');
+        cantidadElement.textContent = `Cantidad: ${item.cantidad}`;
+
+        productoDiv.appendChild(imgElement);
+        productoDiv.appendChild(nombreElement);
+        productoDiv.appendChild(precioElement);
+        productoDiv.appendChild(cantidadElement);
+
+        carritoDiv.appendChild(productoDiv);
     });
 
-    document.getElementById('total').textContent = totalCarrito.toFixed(2);
-}
+    // Manejar la subida de la receta
+    agregarRecetaBtn.addEventListener('click', function() {
+        recetaInput.click(); // Simula el clic en el input de archivo
+    });
 
-// Función para finalizar la compra
-document.getElementById('finalizar-compra').addEventListener('click', () => {
-    alert('¡Gracias por su compra!');
-    localStorage.removeItem('carrito');
-    cargarCarrito();  // Limpiar el carrito después de la compra
+    recetaInput.addEventListener('change', function() {
+        const file = recetaInput.files[0];
+        if (file) {
+            const fileType = file.type;
+            const fileReader = new FileReader();
+
+            fileReader.onload = function(e) {
+                recetaContainer.innerHTML = ''; // Limpiar contenedor
+                if (fileType.includes('image')) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = e.target.result;
+                    recetaContainer.appendChild(imgElement);
+                } else if (fileType.includes('pdf')) {
+                    const pdfElement = document.createElement('iframe');
+                    pdfElement.src = e.target.result;
+                    pdfElement.width = '100%';
+                    pdfElement.height = '600px';
+                    recetaContainer.appendChild(pdfElement);
+                }
+            };
+
+            fileReader.readAsDataURL(file); // Leer el archivo como URL de datos
+        }
+    });
+
+    // Manejar el clic en el botón "Finalizar Compra"
+    finalizarCompraBtn.addEventListener('click', function() {
+        alert('¡Compra finalizada con éxito! Gracias por tu compra.');
+        
+        // Limpiar el carrito y receta
+        localStorage.removeItem('carrito');
+        carritoDiv.innerHTML = '<p>Tu carrito está vacío.</p>';
+        recetaContainer.innerHTML = ''; // Limpiar contenedor de la receta
+        finalizarCompraBtn.style.display = 'none'; // Ocultar el botón
+    });
 });
-

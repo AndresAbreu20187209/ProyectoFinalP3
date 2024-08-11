@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compra - Farmacia XYZ</title>
+    <title>Carrito de Compra - SUPER FARMA</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -12,10 +12,10 @@
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+                <li><a href="quienes-somos.html">Quienes Somos</a></li>
                 <li><a href="contactos.html">Contactos</a></li>
                 <li><a href="nutricion.html">Nutrición</a></li>
-                <li><a href="carrito.html">Carrito de Compra</a></li>
+                <li><a href="carrito.html" id="btn-carrito">Carrito de Compra</a></li>
             </ul>
         </nav>
     </header>
@@ -24,17 +24,23 @@
         <section id="carrito">
             <h2>Tu Carrito de Compra</h2>
             <div id="lista-carrito">
-                <!-- Aquí se mostrarán los productos añadidos al carrito -->
+                
             </div>
             <div id="total-carrito">
                 <h3>Total: $<span id="total"></span></h3>
                 <button id="finalizar-compra" class="btn-finalizar">Finalizar Compra</button>
             </div>
         </section>
+        <button id="agregar-receta" class="btn-agregar-receta">Agregar Receta</button>
+        <input type="file" id="receta-input" accept="image/*,application/pdf" style="display:none;">
+        <div id="receta-container">
+            <!-- Aquí se mostrará la receta subida -->
+        </div>
+        
     </main>
 
     <footer>
-        <p>&copy; 2024 Farmacia XYZ. Todos los derechos reservados.</p>
+        <p>SUPER FARMA.</p>
     </footer>
 
     <script src="js/carrito.js"></script>
